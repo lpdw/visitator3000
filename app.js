@@ -1,5 +1,9 @@
 var five = require("johnny-five"),
-  button;
+button;
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/test');
+
+var Visit = mongoose.model('Visit', { at: { type: Date, default: Date.now } });
 
 five.Board().on("ready", function() {
 
@@ -9,7 +13,12 @@ five.Board().on("ready", function() {
   });
 
   button.on("down", function(value) {
-     console.log('Nouvelle visite');
+    console.log('Nouvelle visite');
+    var visit = new Visit();
+    visit.save(function (err) {
+      if (err){
+        console.log("ERROR: ", err);
+      }
+    });
   });
 });
-
