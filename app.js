@@ -46,6 +46,7 @@ five.Board().on("ready", function() {
         refreshLcd(lcd);
       }
     });
+    led.ready();
   });
 
 });
