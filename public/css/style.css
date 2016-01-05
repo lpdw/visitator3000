@@ -8,6 +8,12 @@ main {
   flex: 1 0 auto;
 }
 
+nav{
+
+  padding-left:10px;
+  background-color: #01579b !important;
+}
+
 .infos{
 color:#CCCCCC;
 font-size: 12px;
