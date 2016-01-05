@@ -1,0 +1,27 @@
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+.infos{
+color:#CCCCCC;
+font-size: 12px;
+}
+
+.chart{
+
+  width: 100%;
+  height: auto;
+
+}
+
+
+.card.small .card-content, .card.medium .card-content, .card.large .card-content {
+    max-height: 100%!important;
+    overflow: hidden;
+}
