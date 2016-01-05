@@ -9,6 +9,7 @@ var Visit = mongoose.model('Visit', { at: { type: Date, default: Date.now } });
 
 app.set('view engine', 'ejs');
 app.set('layout', 'layout');
+app.set("layout extractScripts", true)
 
 app.use(expressLayouts);
 app.use(express.static('public'));
@@ -35,4 +36,17 @@ five.Board().on("ready", function() {
       }
     });
   });
+
+  lcd = new five.LCD({
+      pins: [7, 8, 9, 10, 11, 12],
+      backlight: 6,
+      rows: 2,
+      cols: 4
+    });
+
+  lcd.cursor(0, 0).print("JOUR MOIS  ANNEE");
+
+  lcd.cursor(1, 0).print("5");
+  lcd.cursor(1, 5).print("12");
+  lcd.cursor(1, 11).print("2005");
 });
