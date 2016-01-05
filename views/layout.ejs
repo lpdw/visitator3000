@@ -1,15 +1,36 @@
 <!doctype html>
 <html class="no-js" lang="fr">
 <head>
-		<meta charset="UTF-8">
-		<title>Visitator3000</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js" charset="utf-8"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js" charset="utf-8"></script>
-		<script src="js/radar.js" charset="utf-8"></script>
+	<meta charset="UTF-8">
+	<title>Visitator3000</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link type="text/css" rel="stylesheet" href="/css/style.css">
+	<!-- Compiled and minified CSS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+	<!-- Compiled and minified JavaScript -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js" charset="utf-8"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js" charset="utf-8"></script>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
-<body>
-	<%- body %>
-	<%- script %>
-</body>
+	<nav>
+		<div class="nav-wrapper light-blue darken-4">
+			<a href="#" class="brand-logo">
+				VISITOR3000
+			</a>
+			<ul id="nav-mobile" class="right hide-on-med-and-down">
+				<li><a class="modal-trigger" id="new-nav" href="#modal1">MISE À JOUR</a></li>
+			</ul>
+	    </div>
+	</nav>
+	<body>
+				<%- body %>
+	</body>
+	<footer class="page-footer light-blue darken-4">
+		<div class="footer-copyright">
+			<div class="container">
+				© 2016 Copyright Faclab
+			</div>
+		</div>
+	</footer>
 </html>
