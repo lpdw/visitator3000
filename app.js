@@ -49,7 +49,6 @@ five.Board().on("ready", function() {
     led.ready();
   });
 
-});
 
 function refreshLcd(lcd){
   lcd.cursor(0, 0).print("JOUR MOIS  ANNEE");
