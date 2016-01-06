@@ -50,13 +50,14 @@
         <h4>Gestion visite</h4>
         <p>Vous pouvez ajouter ou enlever des visites en fonction d'une date.</p>
         <div class="row">
-          <form class="col s12">
+          <form class="col s12" action="/update" method="post">
             <div class="row">
               <div class="input-field col s3">
-                <input id="count" type="number" class="validate" placeholder="* nombre de personne">
+                <input id="count" name="countVisit" type="number" class="validate" placeholder="* nombre de personnes">
               </div>
               <div class="input-field col s9">
-                 <input id="field" class="datepicker" placeholder="selectionner la date">
+                 <input id="field" name="date" class="datepicker" placeholder="sélectionner la date">
+                <input type="submit" class="modal-action modal-close waves-effect waves-green btn-flat "></input>
               </div>
             </div>
           </form>
@@ -64,7 +65,6 @@
         </div>
     </div>
     <div class="modal-footer">
-      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">MODIFIER</a>
     </div>
   </div>
 </div>

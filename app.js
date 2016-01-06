@@ -1,6 +1,7 @@
 var five = require("johnny-five");
 var mongoose = require('mongoose');
 var express = require('express');
+var bodyParser = require('body-parser');
 var expressLayouts = require('express-ejs-layouts');
 var app = express();
 var _ = require('lodash');
@@ -19,6 +20,8 @@ app.set("layout extractScripts", true)
 
 app.use(expressLayouts);
 app.use(express.static('public'));
+app.use(bodyParser.json()); // for parsing application/json
+app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
 
 var auth = function (req, res, next) {
@@ -35,9 +38,53 @@ var auth = function (req, res, next) {
     res.sendStatus(401);
     return;
   }
-}
+};
 
 app.use('/', auth);
+
+
+
+
+
+
+
+app.post('/update', function (req, res) {
+  var count = req.body.countVisit;
+  console.log("count", count);
+
+  var date = new Date(req.body.date);
+  var i = 0;
+
+  if (count < 0){
+        Visit.find({at: {$gte: date, $lt: date}}).sort({_id:-1}).limit(count).remove().exec();
+        console.log(count, "Visites supprimées pour la date");
+
+  }
+  else{
+    //Save count visites ayant la date req.date
+    Visit.save(function (err) {
+      if (err){
+        console.log("ERROR: ", err);
+      } else {
+        refreshLcd(lcd);
+      }
+    });
+
+  }
+
+
+  res.send('POST request to the homepage');
+
+});
+
+
+
+
+
+
+
+
+
 
 app.get('/', function(req, res) {
   //performers = {};

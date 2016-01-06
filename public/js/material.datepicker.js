@@ -63,7 +63,7 @@ $("#picker").append(picker);
 
 	// setup option values
 	var defaults = {
-		format: "DD/MM/YYYY",
+		format: "YYYY-MM-DD",
 		colour: "#009688"
 	};
 	var options = $.extend(defaults, options);
