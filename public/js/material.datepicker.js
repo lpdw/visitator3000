@@ -99,6 +99,10 @@ $("#picker").append(picker);
 				var month = self.viewingMonth();
 		 		var dateString = self.datePickerValue().format(self.options.format);
 				$(self.field).val(dateString);
+				$.get("/visits?day=" +  dateString, function( data ) {
+					$('#countVisits').val(data['count']);
+					console.log(data);
+				});
 			}
 		};
 

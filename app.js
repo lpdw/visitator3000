@@ -2,13 +2,16 @@ var five = require("johnny-five");
 var pixel = require("node-pixel");
 var mongoose = require('mongoose');
 var express = require('express');
-var bodyParser = require('body-parser');
 var expressLayouts = require('express-ejs-layouts');
 var schedule = require('node-schedule');
 var app = express();
+var flash = require('connect-flash');
+var session = require('express-session');
+var cookieParser = require('cookie-parser');
 var _ = require('lodash');
 var async = require('async');
 var basicAuth = require('basic-auth');
+var bodyParser = require('body-parser');
 var lcd;
 
 var environementMongo = process.env.VISITATOR_3000_ENV || 'test';
@@ -18,13 +21,16 @@ var Visit = mongoose.model('Visit', { at: { type: Date, default: Date.now } });
 
 app.set('view engine', 'ejs');
 app.set('layout', 'layout');
-app.set("layout extractScripts", true)
+app.set("layout extractScripts", true);
 
 app.use(expressLayouts);
 app.use(express.static('public'));
-app.use(bodyParser.json()); // for parsing application/json
-app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
+app.use(cookieParser(process.env.VISITATOR_3000_PASSWORD));
+app.use(session({cookie: { maxAge: 60000 }}));
+app.use(flash());
 
 var auth = function (req, res, next) {
   var user = basicAuth(req);
@@ -40,74 +46,48 @@ var auth = function (req, res, next) {
     res.sendStatus(401);
     return;
   }
-};
+}
 
 app.use('/', auth);
 
+app.get('/visits', function(req, res) {
+  var day = new Date(req.query.day);
+  var tomorrow = new Date(req.query.day);
+  tomorrow.setDate(day.getDate()+1);
 
-
-
-
-
-
-app.post('/update', function (req, res) {
-  var count = req.body.countVisit;
-  console.log("count", count);
-
-  var date = new Date(req.body.date);
-  var i = 0;
-
-  if (count < 0){
-        Visit.find({at: {$gte: date, $lt: date}}).sort({_id:-1}).limit(count).remove().exec();
-        console.log(count, "Visites supprimées pour la date");
-
-  }
-  else{
-    //Save count visites ayant la date req.date
-    Visit.save(function (err) {
-      if (err){
-        console.log("ERROR: ", err);
-      } else {
-        refreshLcd(lcd);
-      }
-    });
-
-  }
-
-
-  res.send('POST request to the homepage');
-
+  Visit.find({at: {$gte: day, $lt: tomorrow}}).count().exec(function(err, count){
+    res.json({count: count});
+  });
 });
 
+app.post('/visits', function(req, res) {
+  var day = new Date(req.body.dateVisits);
+  var tomorrow = new Date(req.body.dateVisits);
+  tomorrow.setDate(day.getDate()+1);
+  countVisits = parseInt(req.body.countVisits);
 
-
-
-
-
-
-
-
+  Visit.find({at: {$gte: day, $lt: tomorrow}}).count().exec(function(err, count){
+    if (count - countVisits > 0){
+      Visit.find({at: {$gte: day, $lt: tomorrow}}).select('_id').sort({_id: 1}).limit(count - countVisits)
+          .exec(function (err, docs) {
+              var ids = docs.map(function(doc) { return doc._id; });
+              Visit.remove({_id: {$in: ids}}).exec(function(err, result){
+                req.flash('status', "Succès de l'ajout de " + result['result']['n']+ ' visites le ' + req.body.dateVisits);
+                res.redirect('/');
+              });
+          }
+      );
+    } else {
+      var visits = _.times(countVisits - count, function() { return {at: day} });
+      Visit.collection.insert(visits, function(err, result){
+        req.flash('status', 'Succès de suppresion de ' + result['insertedCount'] + ' visites le ' + req.body.dateVisits);
+        res.redirect('/');
+      });
+    }
+  });
+});
 
 app.get('/', function(req, res) {
-  //performers = {};
-
-  // var start = new Date().setDate(1);
-  // var end = new Date().setDate(31);
-  //
-  // Visit.count({at: {$gte: start, $lt: end}}).exec(function(err, count){
-  //   console.log(count);
-  // });
-  // return Visit.$where('return this.at.getDay() == (new Date).getDay()').exec(function (err, docs) {
-  //   hours = _.map(docs, function(d){ return d.at.getHours()});
-  //
-  //   dayChart = _.map(_.range(0,23), function(i){
-  //     return _.countBy(hours, function(hour) {
-  //       return hour == i;
-  //     })['true'] || 0;
-  //   });
-  //
-  //   return callback(err, dayChart);
-  //   });
   var currentYear = Math.round((new Date().setHours(23) - new Date(new Date().getFullYear(), 0, 1, 0, 0, 0))/1000/86400);
   var onejan = new Date(new Date().getFullYear(), 0, 1);
   var week = Math.ceil( (((new Date() - onejan) / 86400000) + onejan.getDay() + 1) / 7 );
@@ -149,7 +129,7 @@ app.get('/', function(req, res) {
           { $match : { week: week-1 } },
           {
             $group: {
-              _id: { day: { $subtract: ["$day", 2] } },
+              _id: { day: { $subtract: ["$day", 1] } },
               count: { $sum: 1 }
             }
           }).exec(function(err, stats){
@@ -206,7 +186,7 @@ app.get('/', function(req, res) {
               });
             }
           }, function(err, stats) {
-            return res.render('home', {stats: stats});
+            return res.render('home', {stats: stats, status: req.flash('status')});
           });
         });
 

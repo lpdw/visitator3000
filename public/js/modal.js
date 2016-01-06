@@ -3,5 +3,5 @@ $( document ).ready(function() {
     $('#modal1').openModal();
   });
 
-  $('#field').datepicker();
+  $('#datePickerVisits').datepicker();
 });

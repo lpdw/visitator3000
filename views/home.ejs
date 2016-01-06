@@ -2,6 +2,9 @@
   <div class="row">
     <div class="cente-align">
       <h1>Visitator3000</h1>
+      <% if (status != '') { %>
+          <div class="card-panel green lighten-1 white-text"><%= status %>.</div>
+      <% } %>
     </div>
   </div>
   <div class="row">
@@ -42,32 +45,28 @@
       <div class="col s12 m4 l10"><p></p></div>
       <div class="col s12 m4 l1">
         <a class="modal-trigger btn-floating btn-large waves-effect waves-light light-blue darken-2 lighten-3"><i class="material-icons">mode_edit</i></a>
-        </a>
-      </div>
-    </div>
-    <div id="modal1" class="modal modal-fixed-footer">
-      <div class="modal-content">
-        <h4>Gestion visite</h4>
-        <p>Vous pouvez ajouter ou enlever des visites en fonction d'une date.</p>
-        <div class="row">
-          <form class="col s12" action="/update" method="post">
-            <div class="row">
-              <div class="input-field col s3">
-                <input id="count" name="countVisit" type="number" class="validate" placeholder="* nombre de personnes">
-
-              </div>
-              <div class="input-field col s9">
-                 <input id="field" name="date" class="datepicker" placeholder="sélectionner la date">
-                <input type="submit" class="modal-action modal-close waves-effect waves-green btn-flat "></input>
-              </div>
-            </div>
-          </form>
-          <p class="infos">* Mettre un nombre positif pour l'ajout et un nombre négatif pour la suppression de visite.</p>
-        </div>
-    </div>
-    <div class="modal-footer">
+      </a>
     </div>
   </div>
+  <div id="modal1" class="modal">
+    <form class="col s12" action="/visits" method="post">
+   <div class="modal-content">
+     <h4>Gestion des visites</h4>
+     <p>Vous pouvez ajouter ou enlever des visites en fonction d'une date.</p>
+     <div class="input-field col s12">
+       <label>Date</label>
+       <br>
+       <input name="dateVisits" id="datePickerVisits" class="datepicker" placeholder="Selectionnez une date">
+     </div>
+     <div class="input-field col s12">
+       <label>Nombres de visite</label>
+       <input name="countVisits" id="countVisits" type="number" class="validate" placeholder="Le nombre de visite à cette date">
+     </div>
+   </div>
+   <div class="modal-footer">
+     <button type="submit" name="action" class="btn modal-action modal-close">Mettre à jour</button>
+     <a href="#!" class="btn modal-action modal-close red darken-2">Fermer</a>
+   </div>
+   </form>
+ </div>
 </div>
-<div id="picker"></div>
-</main>

@@ -6,9 +6,13 @@
   "dependencies": {
     "async": "^1.5.1",
     "basic-auth": "^1.0.3",
+    "body-parser": "^1.14.2",
+    "cookie-parser": "^1.4.0",
     "ejs": "^2.3.4",
     "express": "^4.13.3",
     "express-ejs-layouts": "^2.0.0",
+    "express-messages": "^1.0.0",
+    "express-session": "^1.12.1",
     "node-pixel": "^0.6.0",
     "node-schedule": "^0.6.0"
   },

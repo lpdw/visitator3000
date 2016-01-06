@@ -87,3 +87,14 @@ left: 0;
 right: 0;
 
 }
+button[type=submit] {
+    background-color: #01579b !important;
+}
+
+.modal-footer {
+  padding-top: 10px;
+}
+
+.modal-footer .btn{
+  margin: 6px 0 6px 6px !important;
+}

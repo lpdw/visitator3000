@@ -7,6 +7,7 @@ $( document ).ready(function() {
         pointColor: "rgba(220,220,220,1)",
         pointStrokeColor: "#fff",
         pointHighlightFill: "#fff",
+        bezierCurve : true
       }
     ]
   };
