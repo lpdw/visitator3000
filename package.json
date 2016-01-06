@@ -5,6 +5,7 @@
   "main": "app.js",
   "dependencies": {
     "async": "^1.5.1",
+    "basic-auth": "^1.0.3",
     "ejs": "^2.3.4",
     "express": "^4.13.3",
     "express-ejs-layouts": "^2.0.0",

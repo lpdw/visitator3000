@@ -5,6 +5,7 @@ var expressLayouts = require('express-ejs-layouts');
 var app = express();
 var _ = require('lodash');
 var async = require('async');
+var basicAuth = require('basic-auth');
 var lcd;
 
 var environementMongo = process.env.VISITATOR_3000_ENV || 'test';
@@ -18,6 +19,25 @@ app.set("layout extractScripts", true)
 
 app.use(expressLayouts);
 app.use(express.static('public'));
+
+
+var auth = function (req, res, next) {
+  var user = basicAuth(req);
+  if (!user || !user.name || !user.pass) {
+    res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
+    res.sendStatus(401);
+    return;
+  }
+  if (user.name === process.env.VISITATOR_3000_USER && user.pass === process.env.VISITATOR_3000_PASSWORD) {
+    next();
+  } else {
+    res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
+    res.sendStatus(401);
+    return;
+  }
+}
+
+app.use('/', auth);
 
 app.get('/', function(req, res) {
   //performers = {};
