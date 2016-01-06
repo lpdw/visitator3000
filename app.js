@@ -1,8 +1,10 @@
 var five = require("johnny-five");
+var pixel = require("node-pixel");
 var mongoose = require('mongoose');
 var express = require('express');
 var bodyParser = require('body-parser');
 var expressLayouts = require('express-ejs-layouts');
+var schedule = require('node-schedule');
 var app = express();
 var _ = require('lodash');
 var async = require('async');
@@ -210,7 +212,20 @@ app.get('/', function(req, res) {
 
 app.listen(process.env.VISITATOR_3000_PORT || 8080);
 
-  five.Board().on("ready", function() {
+board = five.Board();
+  board.on("ready", function() {
+    servo = new five.Servo(5);
+    servo.to(0);
+
+    schedule.scheduleJob('* * 1 * * *', function(){
+      servo.to(0);
+      board.wait(20000, function() {
+        servo.to(90);
+      });
+    });
+    //servo.to( 0 );
+    servo.to(90);
+
     lcd = new five.LCD({
       pins: [7, 8, 9, 10, 11, 12],
       backlight: 6,
@@ -220,22 +235,30 @@ app.listen(process.env.VISITATOR_3000_PORT || 8080);
 
     refreshLcd(lcd);
 
+    strip = new pixel.Strip({
+        board: this,
+        controller: "FIRMATA",
+        strips: [ {pin: 3, length: 12}, ], // this is preferred form for definition
+    });
+
     var button = new five.Button({
       pin: 2,
       isPullup: true
     });
 
+
     button.on("down", function(value) {
       console.log('New visit');
       var visit = new Visit();
+      playLed(strip);
+      refreshLcd(lcd);
       visit.save(function (err) {
-        if (err){
-          console.log("ERROR: ", err);
-        } else {
-          refreshLcd(lcd);
-        }
+        if (err){ console.log("ERROR: ", err); }
       });
-      led.ready();
+      board.wait(11000, function() {
+        strip.off();
+        strip.show();
+      });
     });
 
     function refreshLcd(lcd){
@@ -252,5 +275,41 @@ app.listen(process.env.VISITATOR_3000_PORT || 8080);
       Visit.$where('return this.at.getYear() == (new Date).getYear()').exec(function (err, docs) {
         lcd.cursor(1, 11).print(docs.length);
       });
+  }
+  function playLed(){
+    var colors = [
+        "red",
+        "red",
+        "yellow",
+        "yellow",
+        "green",
+        "green",
+        "blue",
+        "blue",
+        "violet",
+        "violet",
+        "violet"
+    ];
+
+    for (it = 0; it < 110; it++) {
+        for (i = 0; i < 12; i++) {
+          p = strip.pixel(i);
+          p.color(colors[i]);
+          strip.show();
+        }
+
+      lastColor = colors.pop();
+      colors.splice(0, 0, lastColor);
+    }
+
+    var rand = Math.floor((Math.random() * 10) + 1);
+
+    for (i = 0; i < 12; i++) {
+        p = strip.pixel(i);
+        if(rand != i){
+          p.color('rgb(0,0,0)');
+        }
+      strip.show();
+    }
   }
   });
