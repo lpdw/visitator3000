@@ -8,11 +8,50 @@ main {
   flex: 1 0 auto;
 }
 
-nav{
 
+nav{
+  height: 110px!important;
+  line-height: 110px!important;
   padding-left:10px;
   background-color: #01579b !important;
 }
+
+nav img {
+    max-width: 115px;
+    max-height: 100px;
+    margin-top: 6px;
+
+}
+
+footer.page-footer .footer-copyright {
+    overflow: hidden;
+    height: 90px!important;
+    line-height: 90px!important
+    color: rgba(255,255,255,0.8);
+    background-color: rgba(51,51,51,0.08);
+}
+#count{
+
+  text-align: center!important;
+  font-size: 25px!important;
+  line-height: 15px!important;
+}
+
+
+
+#count::-webkit-input-placeholder { font-size: 15px!important;line-height: 15px!important;padding-top: 5px;}
+#count::-moz-placeholder { font-size: 15px!important;line-height: 15px!important;padding-top: 5px; }
+#count:-ms-input-placeholder { font-size: 15px!important;line-height: 15px!important; padding-top: 5px;}
+#count:-moz-placeholder { font-size: 15px!important;line-height: 15px!important; padding-top: 5px;}
+
+
+
+#count :hover{
+  border-bottom: 1px solid ;
+  border-color: #01579b!important;
+   transition: border-color .2s ease-out;
+}
+
 
 .infos{
 color:#CCCCCC;
@@ -30,4 +69,22 @@ font-size: 12px;
 .card.small .card-content, .card.medium .card-content, .card.large .card-content {
     max-height: 100%!important;
     overflow: hidden;
+}
+
+
+.modal.modal-fixed-footer {
+    padding: 0;
+    height: 50%!important;
+}
+
+.material-datepicker{
+
+position: absolute;
+top: 15px;
+overflow: hidden;
+background: #fff;
+margin: 0 auto;
+left: 0;
+right: 0;
+
 }

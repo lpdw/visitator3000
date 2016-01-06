@@ -48,16 +48,15 @@
     <div id="modal1" class="modal modal-fixed-footer">
       <div class="modal-content">
         <h4>Gestion visite</h4>
-        <p>Ajouter ou enlever le nombre de visite en fonction de la journée</p>
+        <p>Ajouter ou enlever le nombre de visite en fonction d'une date</p>
         <div class="row">
           <form class="col s12">
             <div class="row">
               <div class="input-field col s3">
-                <input id="count" type="number" class="validate">
-                <label for="count">* Nombre de personne</label>
+                <input id="count" type="number" class="validate" placeholder="* nombre de personne">
               </div>
               <div class="input-field col s9">
-                <input type="date" class="datepicker">
+                 <input id="field" class="datepicker" placeholder="selectionner la date">
               </div>
             </div>
           </form>
@@ -65,10 +64,11 @@
         </div>
     </div>
     <div class="modal-footer">
-      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Ajouter</a>
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">MODIFIER</a>
     </div>
   </div>
 </div>
+<div id="picker"></div>
 </main>
 <script src="js/modal.js" ></script>
 <script src="js/data.js" ></script>
