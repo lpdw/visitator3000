@@ -78,8 +78,7 @@ font-size: 12px;
 }
 
 .material-datepicker{
-
-position: absolute;
+position: fixed!important;
 top: 15px;
 overflow: hidden;
 background: #fff;
