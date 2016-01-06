@@ -21,46 +21,47 @@ app.get('/', function(req, res) {
 
 app.listen(process.env.VISITATOR_3000_PORT || 8080);
 
-five.Board().on("ready", function() {
-  lcd = new five.LCD({
-    pins: [7, 8, 9, 10, 11, 12],
-    backlight: 6,
-    rows: 2,
-    cols: 4
-  });
-
-  refreshLcd(lcd);
-
-  var button = new five.Button({
-    pin: 2,
-    isPullup: true
-  });
-
-  button.on("down", function(value) {
-    console.log('New visit');
-    var visit = new Visit();
-    visit.save(function (err) {
-      if (err){
-        console.log("ERROR: ", err);
-      } else {
-        refreshLcd(lcd);
-      }
+  five.Board().on("ready", function() {
+    lcd = new five.LCD({
+      pins: [7, 8, 9, 10, 11, 12],
+      backlight: 6,
+      rows: 2,
+      cols: 4
     });
-    led.ready();
-  });
 
-function refreshLcd(lcd){
-  lcd.cursor(0, 0).print("JOUR MOIS  ANNEE");
+    refreshLcd(lcd);
 
-  Visit.$where('return this.at.getDay() == (new Date).getDay()').exec(function (err, docs) {
-    lcd.cursor(1, 0).print(docs.length);
-  });
+    var button = new five.Button({
+      pin: 2,
+      isPullup: true
+    });
 
-  Visit.$where('return this.at.getMonth() == (new Date).getMonth()').exec(function (err, docs) {
-    lcd.cursor(1, 5).print(docs.length);
-  });
+    button.on("down", function(value) {
+      console.log('New visit');
+      var visit = new Visit();
+      visit.save(function (err) {
+        if (err){
+          console.log("ERROR: ", err);
+        } else {
+          refreshLcd(lcd);
+        }
+      });
+      led.ready();
+    });
 
-  Visit.$where('return this.at.getYear() == (new Date).getYear()').exec(function (err, docs) {
-    lcd.cursor(1, 11).print(docs.length);
+    function refreshLcd(lcd){
+      lcd.cursor(0, 0).print("JOUR MOIS  ANNEE");
+
+      Visit.$where('return this.at.getDay() == (new Date).getDay()').exec(function (err, docs) {
+        lcd.cursor(1, 0).print(docs.length);
+      });
+
+      Visit.$where('return this.at.getMonth() == (new Date).getMonth()').exec(function (err, docs) {
+        lcd.cursor(1, 5).print(docs.length);
+      });
+
+      Visit.$where('return this.at.getYear() == (new Date).getYear()').exec(function (err, docs) {
+        lcd.cursor(1, 11).print(docs.length);
+      });
+  }
   });
-}
