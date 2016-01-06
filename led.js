@@ -30,7 +30,7 @@ board.on("ready", function() {
       ];
 
       for (it = 0; it < 100; it++) {
-          for (i = 0; i < 12; i++) {
+          for (i = 0; i < 11; i++) {
             console.log("ICI");
             p = strip.pixel(i);
             p.color(colors[i]);
@@ -44,7 +44,7 @@ board.on("ready", function() {
 
       var rand = Math.floor((Math.random() * 10) + 1);
 
-      for (i = 0; i < 12; i++) {
+      for (i = 0; i < 11; i++) {
           console.log("rand:", rand);
           pTemp = strip.pixel(i);
           if(rand != i){
