@@ -1291,9 +1291,9 @@ DatePicker.defaults = (function( prefix ) {
         weekdaysShort: [ 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat' ],
 
         // Today and clear
-        today: 'Today',
-        clear: 'Clear',
-        close: 'Close',
+        today: "Aujourd'hui",
+        clear: "Supprimer",
+        close: 'Fermer',
 
         // Picker close behavior
         closeOnSelect: true,
@@ -1349,6 +1349,3 @@ Picker.extend( 'pickadate', DatePicker )
 
 
 }));
-
-
-
