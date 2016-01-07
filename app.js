@@ -78,9 +78,9 @@ board.on("ready", function() {
     visit.save(function(){
       refreshLcd(lcd);
     });
-    board.wait(11000, function() {
-      strip.off();
-      strip.show();
-    });
+    // board.wait(10000, function() {
+    //   strip.off();
+    //   strip.show();
+    // });
   });
 });

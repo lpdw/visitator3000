@@ -12,7 +12,7 @@ module.exports = function(strip){
     colors.splice(0, 0, lastColor);
   }
 
-  var rand = Math.floor((Math.random() * 13) + 0);
+  var rand = Math.floor((Math.random() * 12) + 0);
 
   for (i = 0; i < 12; i++) {
     pixel = strip.pixel(i);
