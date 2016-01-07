@@ -98,3 +98,28 @@ button[type=submit] {
 .modal-footer .btn{
   margin: 6px 0 6px 6px !important;
 }
+
+.modal {
+    display: none;
+    position: fixed;
+    left: 0;
+    right: 0;
+    background-color: #fafafa;
+    padding-bottom: 10px!important;
+    max-height: 70%;
+    width: 55%;
+    margin: auto;
+    overflow-y: auto;
+    border-radius: 2px;
+    will-change: top, opacity;
+}
+
+
+.cross{
+
+  border: 0;
+  width: 25px;
+  height: 25px;
+  margin-top: 6px;
+
+}
