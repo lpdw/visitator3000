@@ -20,3 +20,7 @@ Date.prototype.tomorrow = function() {
   tomorrow.setDate(this.getDate()+1);
   return tomorrow;
 }
+
+Date.prototype.toDate = function() {
+  return this.toJSON().slice(0,10);
+}
