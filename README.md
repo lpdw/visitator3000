@@ -1,3 +1,5 @@
 # VISITATOR3000
 
-Description coming soon :)
+VISITATOR3000 is a visit counter build for the <a href="http://www.faclab.org/">Faclab</a>
+
+
