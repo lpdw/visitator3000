@@ -63,21 +63,30 @@ board.on("ready", function() {
   strip = new pixel.Strip({
     board: this,
     controller: "FIRMATA",
-    strips: [ {pin: 3, length: 12} ]
+    strips: [ {pin: 3, length: 16} ]
   });
 
   var button = new five.Button({
-    pin: 2,
+    pin: 4,
     isPullup: true
   });
 
   button.on("down", function(value) {
-    console.log('New visit');
-    var visit = new Visit();
-    animationLeds(strip);
-    visit.save(function(){
-      refreshLcd(lcd);
+    var dteTemp = new Date();
+    Visit.count({
+      at: {$gte: dteTemp.setSeconds(dteTemp.getSeconds()-1), $lt: dteTemp.setSeconds(dteTemp.getSeconds()+1)}
+      }).exec(function (err, number) {
+      if(!number){
+        console.log('New visit');
+        var visit = new Visit();
+        animationLeds(strip);
+        visit.save(function(){
+          refreshLcd(lcd);
+        });
+      }
+
     });
+
     // board.wait(10000, function() {
     //   strip.off();
     //   strip.show();
